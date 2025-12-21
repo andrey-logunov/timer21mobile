@@ -6,6 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.Gravity
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -199,6 +202,27 @@ fun TimerScreen(ringtone: Ringtone, handler: Handler) {
                         .height(64.dp)
                 ) {
                     Text("Stop", fontSize = 32.sp)
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                val context = LocalContext.current
+
+                Button(
+                    onClick = {
+                        val toast = Toast.makeText(context, Motivator.getRandom(), Toast.LENGTH_SHORT)
+                        toast.setGravity(Gravity.CENTER, 0, 0)
+                        toast.show()
+                        val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+                        val ringtone = RingtoneManager.getRingtone(context, notification)
+                        ringtone.play()
+                    },
+                    enabled = isRunning,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(64.dp)
+                ) {
+                    Text("Wake up", fontSize = 32.sp)
                 }
             }
         }
